@@ -16,11 +16,11 @@
         ui.sex,
         ui.images
         from
-            t_user tu
-                left join user_info ui on
-                (ui.user_id = tu.USER_ID)
+        t_user tu
+        left join user_info ui on
+        (ui.user_id = tu.USER_ID)
         where
-            1 = 1
+        1 = 1
         and tu.USER_TYPE = 2
         <if test="user.username != null and user.username != ''">
             AND ui.name LIKE CONCAT('%',#{user.username},'%')
@@ -29,7 +29,7 @@
             AND tu.STATUS = #{user.status}
         </if>
         order by
-            tu.CREATE_TIME desc
+        tu.CREATE_TIME desc
 
     </select>
 
