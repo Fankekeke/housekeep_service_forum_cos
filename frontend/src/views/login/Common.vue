@@ -4,11 +4,8 @@
       <div class="top">
         <div class="header">
           <a-row style="width: 368px;margin: 0 auto">
-            <a-col :span="8">
-              <img src="../../../static/img/logo1.png" style="height: 100px;">
-            </a-col>
-            <a-col :span="16">
-              <div style="text-align: left;font-size: 23px;margin-bottom: 10px;font-family: SimHei;margin-top: 30px;color: #0E65BB">尚卿美食网</div>
+            <a-col :span="24">
+              <div style="text-align: left;font-size: 23px;margin-bottom: 10px;font-family: SimHei;margin-top: 30px;color: #7a8fab;text-align: center">家政服务论坛</div>
             </a-col>
           </a-row>
         </div>
@@ -55,7 +52,7 @@ export default {
     flex-direction: column;
     height: 100vh;
     overflow: auto;
-    background-color: #b6daf5;
+    background-color: #d9d9d6;
     background-repeat: repeat-x, repeat;
     .content {
       padding: 32px 0;

@@ -1,5 +1,5 @@
 <template>
-  <div :class="[multipage === true ? 'multi-page':'single-page', 'not-menu-page', 'home-page']" style="background-color: #b6daf5; border: none">
+  <div :class="[multipage === true ? 'multi-page':'single-page', 'not-menu-page', 'home-page']" style="background-color: #d9d9d6; border: none">
     <a-row v-if="newsList.length > 0" style="width: 65%;margin: 0 auto;margin-bottom: 15px">
       <a-col :span="22">
         <a-alert
@@ -19,7 +19,7 @@
         </a-carousel>
       </a-col>
       <a-col :span="6">
-        <a-card hoverable :loading="loading" :bordered="false" title="美食百科" style="height: 550px;overflow: auto">
+        <a-card hoverable :loading="loading" :bordered="false" title="家政百科" style="height: 550px;overflow: auto">
           <div style="padding: 0 22px">
             <a-list item-layout="vertical" :pagination="false" :data-source="bulletinList">
               <a-list-item slot="renderItem" key="item.title" slot-scope="item, index">
