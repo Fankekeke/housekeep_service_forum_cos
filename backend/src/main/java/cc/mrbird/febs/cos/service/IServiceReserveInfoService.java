@@ -24,6 +24,14 @@ public interface IServiceReserveInfoService extends IService<ServiceReserveInfo>
     IPage<LinkedHashMap<String, Object>> querySerciceReservePage(Page<ServiceReserveInfo> page, ServiceReserveInfo serviceReserveInfo);
 
     /**
+     * 获取服务预约详情
+     *
+     * @param id ID
+     * @return 结果
+     */
+    LinkedHashMap<String, Object> getDetail(Integer id);
+
+    /**
      * 分页获取服务预约信息
      *
      * @param page               分页对象
@@ -46,7 +54,7 @@ public interface IServiceReserveInfoService extends IService<ServiceReserveInfo>
      *
      * @return 结果
      */
-    List<LinkedHashMap<String, Object>> queryNotCheckOrder();
+    List<LinkedHashMap<String, Object>> queryNotCheckOrder(Integer userId, String key);
 
     /**
      * 作业人员接单

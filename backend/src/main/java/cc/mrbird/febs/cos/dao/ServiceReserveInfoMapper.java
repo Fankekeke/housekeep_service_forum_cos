@@ -24,6 +24,14 @@ public interface ServiceReserveInfoMapper extends BaseMapper<ServiceReserveInfo>
     IPage<LinkedHashMap<String, Object>> querySerciceReservePage(Page<ServiceReserveInfo> page, @Param("serviceReserveInfo") ServiceReserveInfo serviceReserveInfo);
 
     /**
+     * 获取服务预约详情
+     *
+     * @param id ID
+     * @return 结果
+     */
+    LinkedHashMap<String, Object> getDetail(@Param("id") Integer id);
+
+    /**
      * 分页获取服务预约信息
      *
      * @param page               分页对象
@@ -46,5 +54,5 @@ public interface ServiceReserveInfoMapper extends BaseMapper<ServiceReserveInfo>
      *
      * @return 结果
      */
-    List<LinkedHashMap<String, Object>> queryNotCheckOrder();
+    List<LinkedHashMap<String, Object>> queryNotCheckOrder(@Param("userId") Integer userId, @Param("key") String key);
 }

@@ -44,6 +44,17 @@ public class ServiceReserveInfoServiceImpl extends ServiceImpl<ServiceReserveInf
     }
 
     /**
+     * 获取服务预约详情
+     *
+     * @param id ID
+     * @return 结果
+     */
+    @Override
+    public LinkedHashMap<String, Object> getDetail(Integer id) {
+        return baseMapper.getDetail(id);
+    }
+
+    /**
      * 分页获取服务预约信息
      *
      * @param page               分页对象
@@ -73,8 +84,8 @@ public class ServiceReserveInfoServiceImpl extends ServiceImpl<ServiceReserveInf
      * @return 结果
      */
     @Override
-    public List<LinkedHashMap<String, Object>> queryNotCheckOrder() {
-        return baseMapper.queryNotCheckOrder();
+    public List<LinkedHashMap<String, Object>> queryNotCheckOrder(Integer userId, String key) {
+        return baseMapper.queryNotCheckOrder(userId, key);
     }
 
     /**

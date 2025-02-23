@@ -47,7 +47,7 @@
     </div>
     <div>
       <div class="operator">
-        <a-button type="primary" ghost @click="add">新增</a-button>
+<!--        <a-button type="primary" ghost @click="add">新增</a-button>-->
         <a-button @click="batchDelete">删除</a-button>
       </div>
       <!-- 表格区域 -->
@@ -83,8 +83,8 @@
         </template>
         <template slot="operation" slot-scope="text, record">
           <a-icon type="file-search" @click="orderViewOpen(record)" title="详 情" style="margin-right: 10px"></a-icon>
-          <a-icon v-if="record.status ==  0" type="alipay" @click="orderPay(record)" title="支 付" style="margin-left: 10px"></a-icon>
-          <a-icon v-if="record.status ==  2" type="shopping" theme="twoTone" twoToneColor="#4a9ff5" @click="orderReceive(record)" title="完 成" style="margin-left: 10px"></a-icon>
+<!--          <a-icon v-if="record.status ==  0" type="alipay" @click="orderPay(record)" title="支 付" style="margin-left: 10px"></a-icon>-->
+<!--          <a-icon v-if="record.status ==  2" type="shopping" theme="twoTone" twoToneColor="#4a9ff5" @click="orderReceive(record)" title="完 成" style="margin-left: 10px"></a-icon>-->
         </template>
       </a-table>
     </div>
@@ -430,8 +430,7 @@ export default {
         params.size = this.pagination.defaultPageSize
         params.current = this.pagination.defaultCurrent
       }
-      params.userId = this.currentUser.userId
-      this.$get('/cos/service-reserve-info/queryOwnerServicePage', {
+      this.$get('/cos/service-reserve-info/page', {
         ...params
       }).then((r) => {
         let data = r.data.data

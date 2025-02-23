@@ -3,7 +3,9 @@ package cc.mrbird.febs.cos.controller;
 
 import cc.mrbird.febs.common.utils.R;
 import cc.mrbird.febs.cos.entity.ServiceReserveInfo;
+import cc.mrbird.febs.cos.entity.UserInfo;
 import cc.mrbird.febs.cos.service.IServiceReserveInfoService;
+import cc.mrbird.febs.cos.service.IUserInfoService;
 import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -23,6 +25,8 @@ import java.util.List;
 public class ServiceReserveInfoController {
 
     private final IServiceReserveInfoService serviceReserveInfoService;
+
+    private final IUserInfoService userInfoService;
 
     /**
      * 分页获取服务预约信息
@@ -66,8 +70,8 @@ public class ServiceReserveInfoController {
      * @return 结果
      */
     @GetMapping("/queryNotCheckOrder")
-    public R queryNotCheckOrder() {
-        return R.ok(serviceReserveInfoService.queryNotCheckOrder());
+    public R queryNotCheckOrder(@RequestParam("userId") Integer userId, @RequestParam(value = "key", required = false) String key) {
+        return R.ok(serviceReserveInfoService.queryNotCheckOrder(userId, key));
     }
 
     /**
@@ -80,6 +84,17 @@ public class ServiceReserveInfoController {
     @GetMapping("/workOrderCheck")
     public R workOrderCheck(@RequestParam("workId") Integer workId, @RequestParam("orderId") Integer orderId) {
         return R.ok(serviceReserveInfoService.workOrderCheck(workId, orderId));
+    }
+
+    /**
+     * 作业人员完成订单
+     *
+     * @param orderId 订单ID
+     * @return 结果
+     */
+    @GetMapping("/wordOrderFinish")
+    public R wordOrderFinish(@RequestParam("orderId") Integer orderId) {
+        return R.ok(serviceReserveInfoService.update(Wrappers.<ServiceReserveInfo>lambdaUpdate().set(ServiceReserveInfo::getStatus, "3").eq(ServiceReserveInfo::getId, orderId)));
     }
 
     /**
@@ -104,7 +119,7 @@ public class ServiceReserveInfoController {
      */
     @GetMapping("/{id}")
     public R detail(@PathVariable("id") Integer id) {
-        return R.ok(serviceReserveInfoService.getById(id));
+        return R.ok(serviceReserveInfoService.getDetail(id));
     }
 
     /**
@@ -125,6 +140,15 @@ public class ServiceReserveInfoController {
      */
     @PostMapping
     public R save(ServiceReserveInfo serviceReserveInfo) {
+        // 获取所属用户
+        UserInfo userInfo = userInfoService.getOne(Wrappers.<UserInfo>lambdaQuery().eq(UserInfo::getUserId, serviceReserveInfo.getUserId()));
+        if (userInfo != null) {
+            serviceReserveInfo.setUserId(userInfo.getId());
+        }
+        // 设置订单编号
+        serviceReserveInfo.setCode("OR-" + System.currentTimeMillis());
+        // 订单状态
+        serviceReserveInfo.setStatus("0");
         serviceReserveInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
         return R.ok(serviceReserveInfoService.save(serviceReserveInfo));
     }

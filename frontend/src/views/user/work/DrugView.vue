@@ -1,97 +1,69 @@
 <template>
   <a-drawer
-    title="商品详情"
+    title="预约单详情"
     :maskClosable="false"
     width=900
     placement="right"
     :closable="false"
     @close="onClose"
     :visible="show"
+    bodyStyle="padding: 0"
     style="height: calc(100% - 55px);overflow: auto;padding-bottom: 53px;">
-    <div v-if="drugInfo !== null">
+    <div v-if="drugData !== null">
       <a-card :bordered="false" style="height: 300px">
         <div id="areas" style="width: 100%;height: 300px;box-shadow: 3px 3px 3px rgba(0, 0, 0, .2);background:#ec9e3c;color:#fff"></div>
       </a-card>
     </div>
-    <div style="font-size: 13px;font-family: SimHei" v-if="drugInfo !== null">
-      <br/>
+    <br/>
+    <br/>
+    <div style="font-size: 13px;font-family: SimHei" v-if="drugData !== null">
       <a-row style="padding-left: 24px;padding-right: 24px;">
-        <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">购买数量</span></a-col>
-        <a-col :span="6">
-          <a-input-number id="inputNumber" v-model="value" :min="1" :max="drugData.reserve" style="width: 100%"/>
+        <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">基础信息</span></a-col>
+        <a-col :span="8"><b>订单编号：</b>
+          {{ drugData.code }}
+        </a-col>
+        <a-col :span="8"><b>下单时间：</b>
+          {{ drugData.createDate ? drugData.createDate : '- -' }}
+        </a-col>
+        <a-col :span="8"><b>订单价格：</b>
+          {{ drugData.totalPrice ? drugData.totalPrice : '- -' }} 元
         </a-col>
       </a-row>
       <br/>
       <a-row style="padding-left: 24px;padding-right: 24px;">
-        <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">商品信息</span></a-col>
-        <a-col :span="8"><b>商品名称：</b>
-          {{ drugInfo.name }}
+        <a-col :span="8"><b>当前状态：</b>
+          <span v-if="drugData.status == 0">未支付</span>
+          <span v-if="drugData.status == 1">未接单</span>
+          <span v-if="drugData.status == 2">已接单</span>
+          <span v-if="drugData.status == 3">已完成</span>
         </a-col>
-        <a-col :span="8"><b>商品编号：</b>
-          {{ drugInfo.code }}
+        <a-col :span="8"><b>作业类型：</b>
+          <span v-if="drugData.type == 1">房间清洁</span>
+          <span v-if="drugData.type == 2">家电维修</span>
+          <span v-if="drugData.type == 3">家具安装</span>
+          <span v-if="drugData.type == 4">搬家</span>
+          <span v-if="drugData.type == 5">全屋装修</span>
+          <span v-if="drugData.type == 6">水电维修</span>
         </a-col>
-        <a-col :span="8"><b>所属品牌：</b>
-          {{ drugInfo.brand }}
-        </a-col>
-      </a-row>
-      <br/>
-      <a-row style="padding-left: 24px;padding-right: 24px;">
-        <a-col :span="8"><b>通用名：</b>
-          {{ drugInfo.commonName }}
-        </a-col>
-      </a-row>
-      <br/>
-      <a-row style="padding-left: 24px;padding-right: 24px;">
-        <a-col :span="8"><b>剂型：</b>
-          {{ drugInfo.dosageForm }}
-        </a-col>
-        <a-col :span="16"><b>用法：</b>
-          {{ drugInfo.usages }}
-        </a-col>
-        <br/>
-        <br/>
-        <a-col :span="24"><b>适用症状：</b>
-          {{ drugInfo.applicableSymptoms }}
+        <a-col :span="8"><b>下单时间：</b>
+          {{ drugData.createDate }}
         </a-col>
       </a-row>
       <br/>
       <a-row style="padding-left: 24px;padding-right: 24px;">
-        <a-col :span="24"><b>适用疾病：</b>
-          {{ drugInfo.applicableDisease }}
+        <a-col :span="8"><b>详细地址：</b>
+          {{ drugData.address }}
         </a-col>
-        <br/>
-        <br/>
-        <a-col :span="8"><b>包装清单：</b>
-          {{ drugInfo.packingList }}
+        <a-col :span="8"><b>经度：</b>
+          {{ drugData.longitude }}
         </a-col>
-        <a-col :span="16"><b>使用剂量：</b>
-          {{ drugInfo.dosageUse }}
+        <a-col :span="8"><b>维度：</b>
+          {{ drugData.latitude }}
         </a-col>
       </a-row>
       <br/>
       <a-row style="padding-left: 24px;padding-right: 24px;">
-        <a-col :span="8"><b>有效期：</b>
-          {{ drugInfo.validityPeriod }} 月
-        </a-col>
-        <a-col :span="8"><b>批准文号：</b>
-          {{ drugInfo.approvalNumber }}
-        </a-col>
-        <a-col :span="8"><b>生产企业：</b>
-          {{ drugInfo.manufacturer }}
-        </a-col>
-      </a-row>
-      <br/>
-      <a-row style="padding-left: 24px;padding-right: 24px;">
-        <a-col :span="8"><b>单价：</b>
-          {{ drugInfo.unitPrice }} 元
-        </a-col>
-        <a-col :span="8"><b>创建时间：</b>
-          {{ drugInfo.createDate }}
-        </a-col>
-      </a-row>
-      <br/>
-      <a-row style="padding-left: 24px;padding-right: 24px;">
-        <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">商品图片</span></a-col>
+        <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">问题图片</span></a-col>
         <a-col :span="24">
           <a-upload
             name="avatar"
@@ -108,13 +80,29 @@
         </a-col>
       </a-row>
       <br/>
-
+      <a-row style="padding-left: 24px;padding-right: 24px;">
+        <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">问题内容</span></a-col>
+        <a-col :span="24">
+          {{ drugData.content }}
+        </a-col>
+      </a-row>
+      <br/>
+      <a-row style="padding-left: 24px;padding-right: 24px;">
+        <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">预约人信息</span></a-col>
+        <a-col :span="8"><b>用户编号：</b>
+          {{ drugData.userCode }}
+        </a-col>
+        <a-col :span="8"><b>用户姓名：</b>
+          {{ drugData.userName }}
+        </a-col>
+      </a-row>
+      <br/>
     </div>
     <div class="drawer-bootom-button">
       <a-popconfirm title="确定放弃编辑？" @confirm="onClose" okText="确定" cancelText="取消">
         <a-button style="margin-right: .8rem">取消</a-button>
       </a-popconfirm>
-      <a-button @click="handleSubmit" type="primary" :loading="loading">添加到购物车</a-button>
+      <a-button @click="handleSubmit" type="primary" :loading="loading">接单</a-button>
     </div>
   </a-drawer>
 </template>
@@ -169,7 +157,16 @@ export default {
   watch: {
     drugShow: function (value) {
       if (value) {
-        this.selectDrugDetail()
+        // this.selectDrugDetail()
+        if (this.drugData.images !== null && this.drugData.images !== '') {
+          this.imagesInit(this.drugData.images)
+        }
+        setTimeout(() => {
+          baiduMap.initMap('areas')
+          setTimeout(() => {
+            this.local(this.drugData)
+          }, 500)
+        }, 200)
       }
     }
   },
@@ -185,7 +182,7 @@ export default {
       // driving.search(new BMap.Point(this.nowPoint.lng,this.nowPoint.lat), new BMap.Point(scenic.point.split(",")[0],scenic.point.split(",")[1]));
     },
     selectDrugDetail () {
-      this.$get(`/stock/drug-info/selectDrugDetail`, {drugId: this.drugData.drugId, pharmacyId: this.drugData.pharmacyId}).then((r) => {
+      this.$get(`/stock/service-reserve-info/selectDrugDetail/${ this.drugData.id}`).then((r) => {
         this.drugInfo = r.data.drug
         this.pharmacyInfo = r.data.pharmacy
         if (this.drugInfo.images !== null && this.drugInfo.images !== '') {
@@ -225,7 +222,6 @@ export default {
       this.$emit('close')
     },
     handleSubmit () {
-      this.drugData.total = this.value
       this.$emit('success', this.drugData)
     }
   }
